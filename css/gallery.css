@@ -99,8 +99,13 @@
 /* текстовая работа в центре */
 .cf-center .stack.is-text { max-width: min(60vw, 640px); }
 .text-card {
-  background: color-mix(in srgb, var(--cream) 75%, transparent);
-  border: 1px solid var(--line);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02) 42%, rgba(0,0,0,0.22)),
+    rgba(5,5,5,0.88);
+  border: 1px solid rgba(241,234,223,0.22);
+  color: var(--ink);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  backdrop-filter: blur(16px) saturate(1.2);
   padding: clamp(1.6rem, 4vw, 3rem);
   max-height: 52vh; overflow: hidden;
   text-align: left;
@@ -116,14 +121,21 @@
 /* миниатюра текстовой работы */
 .thumb.text-thumb {
   display: grid; place-items: center;
-  background: color-mix(in srgb, var(--cream) 80%, transparent);
+  background: rgba(5,5,5,0.78);
+  border: 1px solid rgba(241,234,223,0.2);
 }
 .thumb.text-thumb span { font-family: var(--serif), serif; font-size: 1.5rem; color: var(--ink-soft); }
 
 /* текст в лайтбоксе */
 .lightbox .lb-text {
   max-width: min(46rem, 92vw); max-height: 80vh; overflow-y: auto;
-  background: var(--cream); color: var(--ink);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02) 42%, rgba(0,0,0,0.22)),
+    rgba(5,5,5,0.9);
+  color: var(--ink);
+  border: 1px solid rgba(241,234,223,0.22);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  backdrop-filter: blur(16px) saturate(1.2);
   padding: clamp(1.8rem, 5vw, 3.4rem);
 }
 .lightbox .lb-text h3 { font-family: var(--serif), serif; font-weight: 500; font-size: clamp(1.6rem, 3.4vw, 2.4rem); margin-bottom: 1rem; }

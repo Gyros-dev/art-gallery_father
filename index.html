@@ -45,9 +45,7 @@
         <p class="section-sub">Живописные эмали</p>
       </div>
       <div class="featured-carousel" aria-label="Избранные работы">
-        <button class="featured-arrow featured-prev" type="button" aria-label="Предыдущая работа">←</button>
         <div class="strip" data-strip></div>
-        <button class="featured-arrow featured-next" type="button" aria-label="Следующая работа">→</button>
       </div>
       <div class="more reveal">
         <a class="btn" href="pages/gallery.html?cat=все">Вся галерея <span class="arrow">→</span></a>
@@ -99,8 +97,6 @@
       });
 
       const step = () => Math.max(strip.clientWidth * 0.72, strip.querySelector('figure')?.getBoundingClientRect().width || 0);
-      document.querySelector('.featured-prev')?.addEventListener('click', () => strip.scrollBy({ left: -step(), behavior: 'smooth' }));
-      document.querySelector('.featured-next')?.addEventListener('click', () => strip.scrollBy({ left: step(), behavior: 'smooth' }));
       if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
         let timer = setInterval(() => {
           const atEnd = strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 8;
