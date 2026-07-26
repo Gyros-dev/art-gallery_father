@@ -37,7 +37,7 @@
   line-height: 0.98;
   letter-spacing: -0.015em;
 }
-.hero-title .thin { font-weight: 300; font-style: italic; }
+.hero-title .thin { font-weight: inherit; font-style: normal; }
 .hero-tagline {
   margin-top: 1.7rem;
   font-size: clamp(0.82rem, 1.7vw, 1.05rem);
@@ -82,6 +82,26 @@
 /* Лента избранного */
 .featured { position: relative; z-index: 2; padding: clamp(2rem,5vw,4rem) 0 clamp(4.5rem,9vw,7rem); }
 .featured .section-head { width: 92%; max-width: var(--maxw); margin-inline: auto; }
+.featured-carousel {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(0.35rem, 1.5vw, 1rem);
+}
+.featured-arrow {
+  width: clamp(2.5rem, 5vw, 3.5rem);
+  height: clamp(2.5rem, 5vw, 3.5rem);
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(241,234,223,0.35);
+  border-radius: 50%;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.45rem;
+  transition: background 0.3s, border-color 0.3s, transform 0.3s;
+}
+.featured-arrow:hover { background: rgba(255,255,255,0.1); border-color: var(--terra); transform: scale(1.06); }
 .strip {
   display: flex;
   gap: clamp(1rem, 2.5vw, 2rem);
@@ -114,7 +134,7 @@
   display: flex; align-items: baseline; gap: 0.7rem;
   padding-top: 0.8rem;
 }
-.strip figcaption h3 { font-family: var(--serif); font-weight: 500; font-size: 1.3rem; }
+.strip figcaption h3 { font-family: var(--serif); font-weight: 700; font-size: 1.3rem; }
 .strip figcaption .cat {
   margin-left: auto;
   font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--terra);
@@ -123,4 +143,8 @@
 
 @media (max-width: 760px) {
   .hero-cta { flex-direction: column; align-items: center; }
+  .featured-carousel { grid-template-columns: 1fr; }
+  .featured-arrow { position: absolute; z-index: 3; background: rgba(5,5,5,0.72); }
+  .featured-prev { left: 0.5rem; }
+  .featured-next { right: 0.5rem; }
 }

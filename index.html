@@ -22,7 +22,7 @@
     <canvas id="loom" aria-hidden="true"></canvas>
     <div class="hero-inner">
       <p class="hero-kicker reveal">Художник-эмальер · член Союза художников России</p>
-      <h1 class="hero-title reveal d1">Иван <span class="thin">Дьяков</span></h1>
+      <h1 class="hero-title reveal d1">Иван Дьяков</h1>
       <p class="hero-tagline reveal d2">Живопись · горячая эмаль · декоративное искусство</p>
       <div class="hero-cta reveal d3">
         <a class="btn solid" href="pages/gallery.html">Смотреть работы <span class="arrow">→</span></a>
@@ -44,7 +44,11 @@
         <h2>Избранное</h2>
         <p class="section-sub">Живописные эмали</p>
       </div>
-      <div class="strip" data-strip></div>
+      <div class="featured-carousel" aria-label="Избранные работы">
+        <button class="featured-arrow featured-prev" type="button" aria-label="Предыдущая работа">←</button>
+        <div class="strip" data-strip></div>
+        <button class="featured-arrow featured-next" type="button" aria-label="Следующая работа">→</button>
+      </div>
       <div class="more reveal">
         <a class="btn" href="pages/gallery.html?cat=все">Вся галерея <span class="arrow">→</span></a>
       </div>
@@ -79,13 +83,8 @@
           }
         })
       );
-      // Избранное задаётся списком названий в data/site.json → "featured".
-      // Если список пуст/не задан — показываем 6 случайных работ.
-      const norm = (s) => (s || '').normalize('NFC').toLowerCase().replace(/ё/g, 'е').replace(/\s+/g, ' ').trim();
-      const featured = Array.isArray(site.featured) ? site.featured : [];
-      const picks = featured.length
-        ? featured.map((t) => works.find((w) => norm(w.title) === norm(t))).filter(Boolean)
-        : works.slice().sort(() => Math.random() - 0.5).slice(0, 6);
+      // Каждый визит показывает новую случайную подборку работ.
+      const picks = works.slice().sort(() => Math.random() - 0.5).slice(0, 6);
 
       picks.forEach((w) => {
         const fig = document.createElement('figure');
@@ -98,6 +97,24 @@
         });
         strip.appendChild(fig);
       });
+
+      const step = () => Math.max(strip.clientWidth * 0.72, strip.querySelector('figure')?.getBoundingClientRect().width || 0);
+      document.querySelector('.featured-prev')?.addEventListener('click', () => strip.scrollBy({ left: -step(), behavior: 'smooth' }));
+      document.querySelector('.featured-next')?.addEventListener('click', () => strip.scrollBy({ left: step(), behavior: 'smooth' }));
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        let timer = setInterval(() => {
+          const atEnd = strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 8;
+          strip.scrollTo({ left: atEnd ? 0 : strip.scrollLeft + step(), behavior: 'smooth' });
+        }, 4800);
+        strip.addEventListener('mouseenter', () => clearInterval(timer), { once: false });
+        strip.addEventListener('mouseleave', () => {
+          clearInterval(timer);
+          timer = setInterval(() => {
+            const atEnd = strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 8;
+            strip.scrollTo({ left: atEnd ? 0 : strip.scrollLeft + step(), behavior: 'smooth' });
+          }, 4800);
+        });
+      }
     }).catch(() => {});
   </script>
 </body>
