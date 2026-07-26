@@ -1,0 +1,163 @@
+/* Выставки — вертикальная лента-таймлайн */
+
+.page {
+  position: relative; z-index: 2;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: calc(var(--nav-h) + clamp(2.5rem, 6vw, 5rem)) clamp(1.2rem, 5vw, 2.5rem) clamp(4rem, 8vw, 6rem);
+}
+
+.exh-group { margin-bottom: clamp(2.5rem, 6vw, 4rem); }
+.exh-group > h2 {
+  font-family: var(--serif); font-weight: 500;
+  font-size: clamp(1.4rem, 3.4vw, 2rem);
+  margin-bottom: 1.6rem;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.exh-group > h2::before {
+  content: ""; width: 26px; height: 2px; background: var(--terra);
+}
+
+.exh-empty {
+  color: var(--ink-soft); font-style: italic;
+  font-family: var(--serif); font-size: 1.3rem;
+  padding: 2rem 0;
+}
+
+/* Сворачиваемый архив */
+.archive-toggle {
+  display: inline-flex; align-items: center; gap: 0.7rem;
+  font-family: var(--serif); font-weight: 500;
+  font-size: clamp(1.4rem, 3.4vw, 2rem);
+  color: var(--ink); margin-bottom: 1.2rem;
+}
+.archive-toggle > span:first-child { display: inline-flex; align-items: center; gap: 0.8rem; }
+.archive-toggle > span:first-child::before { content: ""; width: 26px; height: 2px; background: var(--terra); }
+.archive-count {
+  font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.1em;
+  color: var(--paper); background: var(--ink-soft);
+  min-width: 22px; height: 22px; padding: 0 6px;
+  border-radius: 100px; display: inline-grid; place-items: center;
+  transition: background 0.3s;
+}
+.archive-toggle:hover .archive-count { background: var(--terra); }
+.archive-chevron { font-size: 0.9rem; color: var(--ink-soft); transition: transform 0.35s var(--ease); }
+.archive-toggle.open .archive-chevron { transform: rotate(180deg); }
+.timeline.collapsed { display: none; }
+
+.timeline { position: relative; padding-left: 1.8rem; }
+.timeline::before {
+  content: ""; position: absolute; left: 5px; top: 8px; bottom: 8px;
+  width: 1px; background: var(--line);
+}
+
+.exhibition-card {
+  position: relative;
+  padding: 0 0 1.8rem 0;
+}
+.exhibition-card::before {
+  content: ""; position: absolute; left: -1.8rem; top: 8px;
+  width: 11px; height: 11px; border-radius: 50%;
+  background: var(--paper); border: 2px solid var(--ink-soft);
+  transition: background 0.3s, border-color 0.3s, transform 0.3s;
+}
+.exhibition-card.upcoming::before { border-color: var(--terra); background: var(--terra); box-shadow: 0 0 0 4px color-mix(in srgb, var(--terra) 22%, transparent); }
+.exhibition-card .inner {
+  border: 1px solid rgba(241,234,223,0.22);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.11), rgba(255,255,255,0.035) 42%, rgba(0,0,0,0.22)),
+    rgba(5,5,5,0.24);
+  -webkit-backdrop-filter: blur(16px) saturate(1.25);
+  backdrop-filter: blur(16px) saturate(1.25);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.18),
+    inset 0 -1px 0 rgba(0,0,0,0.35),
+    0 18px 42px rgba(0,0,0,0.16);
+  padding: 1.3rem 1.5rem;
+  display: flex; align-items: flex-start; gap: 1rem;
+  transition: border-color 0.35s var(--ease), transform 0.35s var(--ease), box-shadow 0.35s;
+}
+.exhibition-card.clickable .inner { cursor: pointer; }
+.exhibition-card.clickable:hover .inner {
+  border-color: var(--terra);
+  transform: translateX(4px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.22),
+    0 18px 44px rgba(0,0,0,0.42),
+    0 0 0 1px rgba(192,68,37,0.18);
+}
+.exhibition-card.clickable:hover::before { transform: scale(1.25); }
+
+.exhibition-content { flex: 1; min-width: 0; }
+
+/* действия под описанием */
+.exhibition-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.9rem; }
+.exh-btn {
+  font-family: var(--sans);
+  font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0.5rem 0.95rem; border-radius: 100px;
+  border: 1px solid var(--line); color: var(--ink-soft);
+  transition: color 0.3s, border-color 0.3s, background 0.3s;
+}
+.exh-btn:hover { color: var(--paper); background: var(--ink); border-color: var(--ink); }
+.exh-photos { color: var(--ink); border-color: var(--ink-soft); }
+.exh-photos:hover { background: var(--terra); border-color: var(--terra); color: var(--cream); }
+
+/* миниатюры фото выставки */
+.exhibition-thumbs { display: flex; gap: 0.4rem; flex: none; }
+.exh-thumb {
+  width: 64px; height: 64px; padding: 0; overflow: hidden;
+  border: 1px solid var(--line);
+  transition: transform 0.3s var(--ease), border-color 0.3s;
+}
+.exh-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.exh-thumb:hover { transform: translateY(-2px); border-color: var(--terra); }
+
+@media (max-width: 680px) {
+  .exhibition-card .inner { flex-direction: column; }
+  .exhibition-thumbs { order: -1; }
+}
+.exhibition-content h3 {
+  font-family: var(--serif); font-weight: 500;
+  font-size: clamp(1.15rem, 2.6vw, 1.5rem); line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+.exhibition-date {
+  font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--terra); margin-bottom: 0.3rem;
+}
+.exhibition-location { font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 0.5rem; }
+.exhibition-description { font-size: 0.95rem; }
+.exhibition-arrow {
+  flex: none; font-size: 1.2rem; color: var(--ink-soft);
+  transition: transform 0.35s var(--ease), color 0.3s;
+}
+.exhibition-card.clickable:hover .exhibition-arrow { transform: translateX(4px); color: var(--terra); }
+.badge {
+  display: inline-block; margin-left: 0.6rem;
+  font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 0.2rem 0.5rem; border-radius: 100px;
+  background: var(--terra); color: var(--cream); vertical-align: middle;
+}
+
+/* Оверлей-превью сайта выставки */
+#preview-overlay {
+  position: fixed; inset: 0; z-index: 800;
+  display: none; align-items: center; justify-content: center;
+  padding: clamp(0.8rem, 3vw, 2.5rem);
+  background: rgba(0,0,0,0.94);
+  backdrop-filter: blur(8px);
+}
+#preview-frame {
+  width: min(1100px, 96vw); height: 88vh;
+  border-radius: 4px; background: #fff;
+  box-shadow: 0 40px 90px rgba(0,0,0,0.55);
+}
+#preview-close {
+  position: absolute; top: 1.2rem; right: 1.3rem;
+  width: 48px; height: 48px; border-radius: 50%;
+  display: grid; place-items: center;
+  color: var(--ink); border: 1px solid rgba(255,255,255,0.35);
+  font-size: 1.4rem; cursor: pointer;
+}
+#preview-close:hover { background: rgba(255,255,255,0.14); }

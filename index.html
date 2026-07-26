@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Иван Дьяков — художник-эмальер</title>
+  <meta name="description" content="Онлайн-галерея художника Ивана Дьякова: живописные эмали, декоративное искусство, выставки и биография.">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/eye-32.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="./assets/eye-256.png">
+  <link rel="apple-touch-icon" href="./assets/eye-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto+Slab:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/hero.css">
+</head>
+<body>
+
+  <div id="navbar-placeholder"></div>
+
+  <header class="hero" id="top">
+    <canvas id="loom" aria-hidden="true"></canvas>
+    <div class="hero-inner">
+      <p class="hero-kicker reveal">Художник-эмальер · член Союза художников России</p>
+      <h1 class="hero-title reveal d1">Иван <span class="thin">Дьяков</span></h1>
+      <p class="hero-tagline reveal d2">Живопись · горячая эмаль · декоративное искусство</p>
+      <div class="hero-cta reveal d3">
+        <a class="btn solid" href="pages/gallery.html">Смотреть работы <span class="arrow">→</span></a>
+        <a class="btn" href="pages/about.html">О художнике</a>
+      </div>
+    </div>
+    <a class="scroll-hint" href="#intro" aria-label="Ниже"><span></span></a>
+  </header>
+
+  <main>
+    <section class="intro" id="intro">
+      <p class="reveal">Художник-эмальер, член Союза художников России и доцент СПбГУ. В 2022 году Иван Дьяков награждён <strong>Золотой медалью Российской академии художеств</strong>.</p>
+      <p class="lead reveal d1">Медь, стекло и огонь соединяются в его работах с языком монументального рисунка и живописи.</p>
+    </section>
+
+    <section class="featured">
+      <div class="section-head reveal">
+        <span class="section-num">—</span>
+        <h2>Избранное</h2>
+        <p class="section-sub">Живописные эмали</p>
+      </div>
+      <div class="strip" data-strip></div>
+      <div class="more reveal">
+        <a class="btn" href="pages/gallery.html?cat=все">Вся галерея <span class="arrow">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-name">Иван Дьяков</p>
+    <div class="footer-links">
+      <a href="pages/gallery.html">Галерея</a>
+      <a href="pages/exhibitions.html">Выставки</a>
+      <a href="pages/literature.html">Литература</a>
+      <a href="pages/about.html">Художник</a>
+    </div>
+    <p class="footer-note">© <span data-year></span> · Санкт-Петербург</p>
+  </footer>
+
+  <script src="js/common.js"></script>
+  <script>
+    initLoom(document.getElementById('loom'));
+    Promise.all([
+      fetch('data/gallery.json').then((r) => r.json()),
+      fetch('data/site.json').then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
+    ]).then(([data, site]) => {
+      const strip = document.querySelector('[data-strip]');
+      if (!strip) return;
+      const works = [];
+      (data.categories || []).forEach((c) =>
+        (c.works || []).forEach((w) => {
+          if (w.type !== 'text' && w.images && w.images.length) {
+            works.push({ title: w.title, images: w.images, cat: c.id, label: c.label });
+          }
+        })
+      );
+      // Избранное задаётся списком названий в data/site.json → "featured".
+      // Если список пуст/не задан — показываем 6 случайных работ.
+      const norm = (s) => (s || '').normalize('NFC').toLowerCase().replace(/ё/g, 'е').replace(/\s+/g, ' ').trim();
+      const featured = Array.isArray(site.featured) ? site.featured : [];
+      const picks = featured.length
+        ? featured.map((t) => works.find((w) => norm(w.title) === norm(t))).filter(Boolean)
+        : works.slice().sort(() => Math.random() - 0.5).slice(0, 6);
+
+      picks.forEach((w) => {
+        const fig = document.createElement('figure');
+        fig.innerHTML = `
+          <div class="frame"><img src="${encodeURI(w.images[0])}" alt="${w.title}" loading="lazy"></div>
+          <figcaption><h3>${w.title}</h3><span class="cat">${w.label}</span></figcaption>`;
+        // переход в галерею именно на эту работу (категория + позиция)
+        fig.addEventListener('click', () => {
+          location.href = `pages/gallery.html?cat=${encodeURIComponent(w.cat)}&work=${encodeURIComponent(w.title)}`;
+        });
+        strip.appendChild(fig);
+      });
+    }).catch(() => {});
+  </script>
+</body>
+</html>

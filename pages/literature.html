@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Литература — Иван Дьяков</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/eye-32.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="../assets/eye-256.png">
+  <link rel="apple-touch-icon" href="../assets/eye-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto+Slab:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/literature.css">
+</head>
+<body>
+
+  <div id="navbar-placeholder"></div>
+
+  <main class="page">
+    <div class="section-head reveal">
+      <span class="section-num">03</span>
+      <h1>Литература</h1>
+      <p class="section-sub">Публикации и учебные материалы</p>
+    </div>
+
+    <section id="publications-section" hidden>
+      <h2 class="lit-subhead reveal">Публикации</h2>
+      <ul class="literature-list" id="publications-list"></ul>
+    </section>
+
+    <h2 class="lit-subhead reveal">Учебные материалы</h2>
+    <ul class="literature-list">
+      <li class="reveal">
+        <button class="lit-link" disabled>
+          <span class="lit-num">01</span>
+          <span class="lit-body"><span class="lit-title">Живописная эмаль</span><span class="lit-kind">Материалы и заметки о технике</span></span>
+          <span class="lit-arrow">↗</span>
+        </button>
+      </li>
+<!--      <li class="reveal d1">-->
+<!--        <button class="lit-link" disabled>-->
+<!--          <span class="lit-num">02</span>-->
+<!--          <span class="lit-body">-->
+<!--            <span class="lit-title">Основы искусствоведения</span>-->
+<!--            <span class="lit-kind">Готовится к публикации</span>-->
+<!--          </span>-->
+<!--          <span class="lit-arrow">↗</span>-->
+<!--        </button>-->
+<!--      </li>-->
+<!--      <li class="reveal d2">-->
+<!--        <button class="lit-link" disabled>-->
+<!--          <span class="lit-num">03</span>-->
+<!--          <span class="lit-body">-->
+<!--            <span class="lit-title">Пособие по цветоведению</span>-->
+<!--            <span class="lit-kind">Готовится к публикации</span>-->
+<!--          </span>-->
+<!--          <span class="lit-arrow">↗</span>-->
+<!--        </button>-->
+<!--      </li>-->
+    </ul>
+    <h2 class="lit-subhead reveal">Источники и материалы</h2>
+    <ul class="literature-list source-list">
+      <li class="reveal"><a class="lit-link" href="https://www.krumc.ru/rc/biblioteka/videofilm-master-klassa-ivana-diakova" target="_blank" rel="noopener"><span class="lit-num">01</span><span class="lit-body"><span class="lit-title">Видеофильмы мастер-классов Ивана Дьякова</span><span class="lit-kind">Камчатский учебно-методический центр культуры</span></span><span class="lit-arrow">↗</span></a></li>
+      <li class="reveal"><a class="lit-link" href="https://ar.culture.ru/ru/subject/letniy" target="_blank" rel="noopener"><span class="lit-num">02</span><span class="lit-body"><span class="lit-title">Летний</span><span class="lit-kind">Artefact · музейный проект</span></span><span class="lit-arrow">↗</span></a></li>
+      <li class="reveal"><a class="lit-link" href="https://ar.culture.ru/ru/subject/bolshoy-ulov-ii" target="_blank" rel="noopener"><span class="lit-num">03</span><span class="lit-body"><span class="lit-title">Большой улов II</span><span class="lit-kind">Мурманский областной художественный музей · 2017–2018</span></span><span class="lit-arrow">↗</span></a></li>
+      <li class="reveal"><a class="lit-link" href="https://spbu.ru/news-events/krupnym-planom/prepodavatel-spbgu-ivan-dyakov-dlya-emalera-pechka-yavlyaetsya-takim-zhe" target="_blank" rel="noopener"><span class="lit-num">04</span><span class="lit-body"><span class="lit-title">Для эмальера печка является таким же...</span><span class="lit-kind">СПбГУ · интервью о профессии и материале</span></span><span class="lit-arrow">↗</span></a></li>
+      <li class="reveal"><a class="lit-link" href="http://russian-master.ru/news/news20131029181.html" target="_blank" rel="noopener"><span class="lit-num">05</span><span class="lit-body"><span class="lit-title">Горячая и станковая эмаль</span><span class="lit-kind">Международная Гильдия Мастеров · 2013</span></span><span class="lit-arrow">↗</span></a></li>
+      <li class="reveal"><a class="lit-link" href="https://vk.ru/event189727359" target="_blank" rel="noopener"><span class="lit-num">06</span><span class="lit-body"><span class="lit-title">Анонс события</span><span class="lit-kind">Сообщество ВКонтакте</span></span><span class="lit-arrow">↗</span></a></li>
+      <li class="reveal"><a class="lit-link" href="https://club193401882.orgs.biz" target="_blank" rel="noopener"><span class="lit-num">07</span><span class="lit-body"><span class="lit-title">Материалы клуба</span><span class="lit-kind">Информационная страница проекта</span></span><span class="lit-arrow">↗</span></a></li>
+    </ul>
+  </main>
+
+  <div id="pdf-overlay">
+    <div id="pdf-close">×</div>
+    <iframe id="pdf-viewer" src="" title="Просмотр документа"></iframe>
+  </div>
+
+  <div id="text-overlay">
+    <div id="text-close">×</div>
+    <article id="text-reader"></article>
+  </div>
+
+  <footer class="site-footer">
+    <p class="footer-name">Иван Дьяков</p>
+    <div class="footer-links">
+      <a href="gallery.html">Галерея</a>
+      <a href="exhibitions.html">Выставки</a>
+      <a href="literature.html">Литература</a>
+      <a href="about.html">Художник</a>
+    </div>
+    <p class="footer-note">© <span data-year></span> · Санкт-Петербург</p>
+  </footer>
+
+  <script src="../js/common.js"></script>
+  <script>
+    (function () {
+      const overlay = document.getElementById('pdf-overlay');
+      const viewer = document.getElementById('pdf-viewer');
+      document.querySelectorAll('.lit-link[data-pdf]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          viewer.src = `${BASE}/${btn.dataset.pdf}`;
+          overlay.style.display = 'flex';
+          document.body.style.overflow = 'hidden';
+        });
+      });
+      function close() { overlay.style.display = 'none'; viewer.src = ''; document.body.style.overflow = ''; }
+      document.getElementById('pdf-close').addEventListener('click', close);
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+
+      // Публикации из content/texts (data/texts.json)
+      const textOverlay = document.getElementById('text-overlay');
+      const reader = document.getElementById('text-reader');
+      function openText(item) {
+        reader.innerHTML = '';
+        const h = document.createElement('h2'); h.textContent = item.title; reader.appendChild(h);
+        item.body.split(/\n\s*\n/).filter(Boolean).forEach((par) => {
+          const p = document.createElement('p'); p.textContent = par; reader.appendChild(p);
+        });
+        textOverlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+      function closeText() { textOverlay.style.display = 'none'; document.body.style.overflow = ''; }
+      document.getElementById('text-close').addEventListener('click', closeText);
+      textOverlay.addEventListener('click', (e) => { if (e.target === textOverlay) closeText(); });
+
+      fetch(`${BASE}/data/texts.json`).then((r) => (r.ok ? r.json() : [])).then((texts) => {
+        if (!texts.length) return;
+        const section = document.getElementById('publications-section');
+        const listEl = document.getElementById('publications-list');
+        section.hidden = false;
+        texts.forEach((item, i) => {
+          const li = document.createElement('li');
+          li.className = 'reveal';
+          const preview = item.body.replace(/\n+/g, ' ').slice(0, 110);
+          li.innerHTML = `
+            <button class="lit-link">
+              <span class="lit-num">${String(i + 1).padStart(2, '0')}</span>
+              <span class="lit-body"><span class="lit-title"></span><span class="lit-kind"></span></span>
+              <span class="lit-arrow">↗</span>
+            </button>`;
+          li.querySelector('.lit-title').textContent = item.title;
+          li.querySelector('.lit-kind').textContent = preview + (item.body.length > 110 ? '…' : '');
+          li.querySelector('.lit-link').addEventListener('click', () => openText(item));
+          listEl.appendChild(li);
+        });
+        if (typeof initReveals === 'function') initReveals();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+        if (overlay.style.display === 'flex') close();
+        if (textOverlay.style.display === 'flex') closeText();
+      });
+    })();
+  </script>
+</body>
+</html>

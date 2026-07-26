@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Выставки — Иван Дьяков</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/eye-32.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="../assets/eye-256.png">
+  <link rel="apple-touch-icon" href="../assets/eye-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto+Slab:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/exhibitions.css">
+</head>
+<body>
+
+  <div id="navbar-placeholder"></div>
+
+  <main class="page">
+    <div class="section-head reveal">
+      <span class="section-num">02</span>
+      <h1>Выставки</h1>
+      <p class="section-sub">Экспозиции и участие</p>
+    </div>
+
+    <section class="exh-group" id="upcoming-group" hidden>
+      <h2>Текущие и будущие</h2>
+      <div class="timeline" id="upcoming-exhibitions"></div>
+    </section>
+
+    <p class="exh-empty" id="exh-empty" hidden>Пока нет выставок для показа.</p>
+
+    <section class="exh-group" id="archive-group" hidden>
+      <button class="archive-toggle" id="archive-toggle" aria-expanded="false">
+        <span>Архив</span>
+        <span class="archive-count" id="archive-count"></span>
+        <span class="archive-chevron" aria-hidden="true">▾</span>
+      </button>
+      <div class="timeline collapsed" id="past-exhibitions"></div>
+    </section>
+  </main>
+
+  <div id="preview-overlay">
+    <div id="preview-close">×</div>
+    <iframe id="preview-frame" src="" title="Предпросмотр выставки"></iframe>
+  </div>
+
+  <footer class="site-footer">
+    <p class="footer-name">Иван Дьяков</p>
+    <div class="footer-links">
+      <a href="gallery.html">Галерея</a>
+      <a href="exhibitions.html">Выставки</a>
+      <a href="literature.html">Литература</a>
+      <a href="about.html">Художник</a>
+    </div>
+    <p class="footer-note">© <span data-year></span> · Санкт-Петербург</p>
+  </footer>
+
+  <script src="../js/common.js"></script>
+  <script src="../js/exhibitions.js"></script>
+</body>
+</html>

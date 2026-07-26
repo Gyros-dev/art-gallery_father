@@ -1,0 +1,118 @@
+{
+  "generated": "2026-07-26T07:57:19.888Z",
+  "categories": [
+    {
+      "id": "горячая эмаль",
+      "label": "Горячая эмаль",
+      "works": [
+        {
+          "title": "Ростовые иконы святителя Николая Чудотворца и святого праведного Иоанна Кронштадтского. Фрагмент",
+          "type": "art",
+          "group": false,
+          "images": [
+            "images/art/Горячая эмаль/Ростовые иконы святителя Николая Чудотворца и святого праведного Иоанна Кронштадтского. Фрагмент.jpg"
+          ],
+          "info": ""
+        },
+        {
+          "title": "Тест1",
+          "type": "art",
+          "group": false,
+          "images": [
+            "images/art/Горячая эмаль/Тест1.jpg"
+          ],
+          "info": ""
+        },
+        {
+          "title": "Тест2",
+          "type": "art",
+          "group": false,
+          "images": [
+            "images/art/Горячая эмаль/Тест2.jpg"
+          ],
+          "info": ""
+        },
+        {
+          "title": "Тест3",
+          "type": "art",
+          "group": false,
+          "images": [
+            "images/art/Горячая эмаль/Тест3.jpg"
+          ],
+          "info": ""
+        },
+        {
+          "title": "Тест4",
+          "type": "art",
+          "group": false,
+          "images": [
+            "images/art/Горячая эмаль/Тест4.jpg"
+          ],
+          "info": ""
+        },
+        {
+          "title": "Тест5",
+          "type": "art",
+          "group": false,
+          "images": [
+            "images/art/Горячая эмаль/Тест5.jpg"
+          ],
+          "info": ""
+        },
+        {
+          "title": "Тест6",
+          "type": "art",
+          "group": false,
+          "images": [
+            "images/art/Горячая эмаль/Тест6.jpg"
+          ],
+          "info": ""
+        },
+        {
+          "title": "Тест7",
+          "type": "art",
+          "group": false,
+          "images": [
+            "images/art/Горячая эмаль/Тест7.jpg"
+          ],
+          "info": ""
+        },
+        {
+          "title": "papa_1",
+          "type": "art",
+          "group": false,
+          "images": [
+            "images/art/Горячая эмаль/papa_1.jpg"
+          ],
+          "info": ""
+        },
+        {
+          "title": "papa_2",
+          "type": "art",
+          "group": false,
+          "images": [
+            "images/art/Горячая эмаль/papa_2.jpg"
+          ],
+          "info": ""
+        },
+        {
+          "title": "Выставка эмалей \"ТРАПЕЗА\"",
+          "type": "art",
+          "group": true,
+          "images": [
+            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/1.jpg",
+            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/2.jpg",
+            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/3.jpg",
+            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/4.jpg",
+            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/5.jpg",
+            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/6.jpg",
+            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/7.jpg",
+            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/8.jpg",
+            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/9.jpg"
+          ],
+          "info": ""
+        }
+      ]
+    }
+  ]
+}
