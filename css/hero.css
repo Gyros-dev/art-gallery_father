@@ -16,7 +16,7 @@
   background: linear-gradient(180deg, rgba(5,5,5,0.68), rgba(5,5,5,0.84));
   pointer-events: none;
 }
-.hero-inner { position: relative; z-index: 2; padding: 0 1.4rem; }
+.hero-inner { position: relative; z-index: 2; padding: 0 1.4rem;}
 .hero::before {
   content: ""; position: absolute; inset: 0; z-index: 1;
   background: url("../images/art/Горячая эмаль/papa_1.jpg") center / cover no-repeat;

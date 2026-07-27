@@ -105,10 +105,10 @@ function initLoom(canvas) {
     ctx.clearRect(0, 0, w, h);
 
     const cx = w * 0.5, cy = h * 0.52;
-    const plateW = Math.min(w * 0.72, 920), plateH = Math.min(h * 0.56, 520);
-    ctx.fillStyle = 'rgba(86,37,29,0.26)';
+    const plateW = Math.min(w * 0.72, 1500), plateH = Math.min(h * 0.56, 520);
+    ctx.fillStyle = 'rgba(86,37,29,0.16)';
     ctx.fillRect(cx - plateW / 2, cy - plateH / 2, plateW, plateH);
-    ctx.strokeStyle = 'rgba(201,152,79,0.16)'; ctx.lineWidth = 2;
+    ctx.strokeStyle = 'rgba(201,152,79,0.3)'; ctx.lineWidth = 3;
     ctx.strokeRect(cx - plateW / 2, cy - plateH / 2, plateW, plateH);
     sparks.forEach((spark) => {
       const x = spark.x * w + Math.sin(t * spark.speed + spark.phase) * 16;
