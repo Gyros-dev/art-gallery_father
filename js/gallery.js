@@ -9,6 +9,9 @@
   let filter = 'все';
   let usingA = true;
   let cooldown = false;
+  let lbFullToken = 0; // отменяет подгрузку полного размера при быстром листании
+  let lbSlides = []; // плоский список: каждая часть серии = отдельный слайд
+  let lbIndex = 0;
 
   const els = {};
 
@@ -16,6 +19,8 @@
     cache();
     bindEvents();
     setData(await loadData());
+    // поворот экрана и появление панелей браузера меняют свободное место
+    addEventListener('resize', syncChrome, { passive: true });
   });
 
   function cache() {
@@ -56,10 +61,11 @@
           categoryLabel: c.label || c.id,
           type: w.type === 'text' ? 'text' : 'art',
           group: !!w.group && (w.images || []).length > 1,
-          // Кодируем путь перед вставкой в src: в названиях папок могут быть
-          // пробелы, кавычки и кириллица (например, папка «ТРАПЕЗА»).
-          // Без этого кавычка преждевременно закрывает HTML-атрибут src.
-          images: (w.images || []).map((s) => `${BASE}/${encodeURI(s)}`),
+          layout: w.layout === 'grid' ? 'grid' : 'row',
+          parts: w.parts || [],
+          images: (w.images || []).map((s) => `${BASE}/${s}`),
+          full: (w.full || []).map((s) => (s ? `${BASE}/${s}` : null)),
+          thumb: w.thumb ? `${BASE}/${w.thumb}` : ((w.images || [])[0] ? `${BASE}/${w.images[0]}` : ''),
           info: w.info || '',
           body: w.body || '',
         });
@@ -131,9 +137,9 @@
       const fig = document.createElement('figure');
       fig.className = 'grid-card';
       const media = w.type === 'text'
-        ? `<div class="grid-media text"><span>${w.title[0] || 'Т'}</span></div>`
-        : `<div class="grid-media"><img src="${w.images[0]}" alt="${w.title}" loading="lazy">${w.group ? `<span class="grid-badge">${w.images.length}</span>` : ''}</div>`;
-      fig.innerHTML = `${media}<figcaption><h3></h3><span class="cat">${w.categoryLabel}</span></figcaption>`;
+        ? `<div class="grid-media text"><span>${esc(w.title[0] || 'Т')}</span></div>`
+        : `<div class="grid-media"><img src="${esc(w.thumb || w.images[0])}" alt="${esc(w.title)}" loading="lazy">${w.group ? `<span class="grid-badge">${w.images.length}</span>` : ''}</div>`;
+      fig.innerHTML = `${media}<figcaption><h3></h3><span class="cat">${esc(w.categoryLabel)}</span></figcaption>`;
       fig.querySelector('h3').textContent = w.title;
       fig.addEventListener('click', () => { current = i; openLightbox(); });
       els.grid.appendChild(fig);
@@ -147,7 +153,7 @@
       const b = document.createElement('button');
       b.className = 'thumb' + (w.type === 'text' ? ' text-thumb' : '');
       if (w.type === 'text') b.innerHTML = '<span>Т</span>';
-      else b.innerHTML = `<img src="${w.images[0]}" alt="${w.title}" loading="lazy">`;
+      else b.innerHTML = `<img src="${esc(w.thumb || w.images[0])}" alt="${esc(w.title)}" loading="lazy">`;
       if (w.group) b.insertAdjacentHTML('beforeend', `<span class="thumb-badge">${w.images.length}</span>`);
       b.addEventListener('click', () => go(i));
       els.strip.appendChild(b);
@@ -156,7 +162,9 @@
 
   /* ---------- центр coverflow ---------- */
   function fillLayer(layer, w) {
-    layer.classList.remove('multi', 'single', 'text');
+    layer.classList.remove('multi', 'single', 'text', 'as-grid');
+    layer.style.removeProperty('--cols');
+    layer.style.removeProperty('--rows');
     layer.innerHTML = '';
     if (w.type === 'text') {
       layer.classList.add('text');
@@ -171,15 +179,20 @@
     }
     const n = w.images.length;
     layer.classList.add(n > 1 ? 'multi' : 'single');
-    w.images.forEach((src) => {
+    // раскладка серии: в ряд или сеткой («квадратом») — задаётся в data/gallery.json
+    if (n > 1) {
+      const asGrid = w.layout === 'grid';
+      const cols = asGrid ? Math.ceil(Math.sqrt(n)) : n;
+      if (asGrid) layer.classList.add('as-grid');
+      layer.style.setProperty('--cols', cols);
+      layer.style.setProperty('--rows', Math.ceil(n / cols));
+    }
+    w.images.forEach((src, pi) => {
       const img = new Image();
       img.src = src;
-      img.alt = w.title;
-      if (n > 1) {
-        img.style.maxWidth = `calc((min(88vw, 1120px) - ${n - 1} * 1.2rem) / ${n})`;
-        // клик по любой части серии — открыть работу целиком (все части)
-        img.addEventListener('click', (e) => { e.stopPropagation(); openLightbox(); });
-      }
+      img.alt = w.parts?.[pi]?.title ? `${w.title} — ${w.parts[pi].title}` : w.title;
+      // клик по конкретной части серии — открыть лайтбокс именно на ней
+      if (n > 1) img.addEventListener('click', (e) => { e.stopPropagation(); openLightbox(pi); });
       layer.appendChild(img);
     });
   }
@@ -188,13 +201,25 @@
     const bits = [w.categoryLabel];
     if (w.group) bits.push(`серия · ${w.images.length} ${plural(w.images.length)}`);
     if (w.info) bits.push(w.info);
-    return bits.map((b) => `<span>${b}</span>`).join(' <span class="dot">·</span> ');
+    return bits.map((b) => `<span>${esc(b)}</span>`).join(' <span class="dot">·</span> ');
   }
   function plural(n) {
     const m10 = n % 10, m100 = n % 100;
     if (m10 === 1 && m100 !== 11) return 'часть';
     if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return 'части';
     return 'частей';
+  }
+
+  /* Высота всего, кроме самой картины: шапка, фильтры, подпись под работой
+     и лента миниатюр. В образце это была константа --cf-chrome, но у длинных
+     названий подпись занимает две строки, константа перестаёт сходиться,
+     и картина наезжает сверху на фильтры, а снизу на подпись. Поэтому меряем
+     по факту — после каждой смены работы и при изменении размера окна. */
+  function syncChrome() {
+    const h = (el) => (el ? el.getBoundingClientRect().height : 0);
+    const chrome = h(document.querySelector('.navbar')) + h(els.filters)
+                 + h(els.info) + h(document.querySelector('[data-filmstrip]')) + 8;
+    if (chrome > 0) document.documentElement.style.setProperty('--cf-chrome', `${Math.round(chrome)}px`);
   }
 
   function render(dir) {
@@ -206,6 +231,7 @@
     const hideEl = usingA ? els.layerA : els.layerB;
     fillLayer(showEl, w);
     els.stack.classList.toggle('is-group', w.group);
+    els.stack.classList.toggle('is-grid', !!w.group && w.layout === 'grid');
     els.stack.classList.toggle('is-text', w.type === 'text');
 
     showEl.classList.remove('enter-left', 'enter-right');
@@ -227,6 +253,9 @@
       t.classList.toggle('active', i === current);
       if (i === current) t.scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth', inline: 'center', block: 'nearest' });
     });
+
+    // подпись уже отрисована — пересчитываем свободное место под картину
+    requestAnimationFrame(syncChrome);
   }
 
   function go(index) {
@@ -278,32 +307,82 @@
     els.lb.querySelector('.lb-x').addEventListener('click', closeLightbox);
     els.lb.querySelector('.lb-prev').addEventListener('click', (e) => { e.stopPropagation(); lbStep(-1); });
     els.lb.querySelector('.lb-next').addEventListener('click', (e) => { e.stopPropagation(); lbStep(1); });
-    els.lb.addEventListener('click', (e) => { if (e.target === els.lb || e.target === els.lbImg) closeLightbox(); });
+
+    // Листание свайпом в самом лайтбоксе. Без него на телефоне работу нельзя
+    // было пролистать вовсе: стрелки там мелкие, а серия открывалась
+    // на первой части и дальше не двигалась.
+    let lsx = 0, lsy = 0, lbSwiped = false;
+    els.lb.addEventListener('touchstart', (e) => {
+      lsx = e.touches[0].clientX; lsy = e.touches[0].clientY; lbSwiped = false;
+    }, { passive: true });
+    els.lb.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - lsx;
+      const dy = e.changedTouches[0].clientY - lsy;
+      // только заметное горизонтальное движение: вертикальное оставляем
+      // прокрутке — в текстовых работах её видно
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) {
+        lbSwiped = true;
+        lbStep(dx < 0 ? 1 : -1);
+      }
+    }, { passive: true });
+
+    els.lb.addEventListener('click', (e) => {
+      if (lbSwiped) { lbSwiped = false; return; }   // свайп — это не «закрыть»
+      if (e.target === els.lb || e.target === els.lbImg) closeLightbox();
+    });
   }
 
   /* ---------- лайтбокс ---------- */
   function activeList() { return filter === 'все' ? all : list; }
-  function openLightbox() {
+  // Плоский список слайдов: каждая часть серии — отдельный полноэкранный слайд.
+  function buildSlides() {
+    const src = activeList();
+    lbSlides = [];
+    src.forEach((w, wi) => {
+      if (w.type === 'text') {
+        lbSlides.push({ type: 'text', work: w, workIndex: wi });
+      } else {
+        const n = w.images.length;
+        w.images.forEach((s, pi) => {
+          const meta = w.parts?.[pi] || {};
+          lbSlides.push({
+            type: 'art', src: s, full: (w.full || [])[pi] || null, title: w.title,
+            partTitle: meta.title || '',
+            info: meta.info || w.info,
+            workIndex: wi, part: pi + 1, parts: n,
+          });
+        });
+      }
+    });
+  }
+  function openLightbox(startPart = 0) {
     const src = activeList();
     if (!src.length || !src[current]) return;
+    buildSlides();
+    const firstOfWork = lbSlides.findIndex((sl) => sl.workIndex === current);
+    lbIndex = Math.max(0, Math.min((firstOfWork < 0 ? 0 : firstOfWork) + (startPart || 0), lbSlides.length - 1));
     fillLightbox();
     els.lb.classList.add('show');
+    // без этого программы чтения с экрана не видели открытую работу:
+    // в разметке стоит aria-hidden="true", и его нужно снимать
+    els.lb.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
     requestAnimationFrame(() => els.lb.classList.add('open'));
   }
   function fillLightbox() {
-    const src = activeList();
-    const w = src[current];
-    // сброс всех режимов
+    const sl = lbSlides[lbIndex];
+    if (!sl) return;
+    // сброс режимов
     els.lbImg.style.display = 'none';
     els.lbText.style.display = 'none';
     els.lbMulti.style.display = 'none';
     els.lbMulti.innerHTML = '';
-    els.lb.classList.toggle('has-nav', src.length > 1);
-    els.lb.classList.toggle('is-text', w.type === 'text');
+    els.lb.classList.toggle('has-nav', lbSlides.length > 1);
+    els.lb.classList.toggle('is-text', sl.type === 'text');
     els.lb.classList.remove('is-group');
 
-    if (w.type === 'text') {
+    if (sl.type === 'text') {
+      const w = sl.work;
       els.lbText.style.display = '';
       els.lbText.innerHTML = '';
       const h = document.createElement('h3'); h.textContent = w.title; els.lbText.appendChild(h);
@@ -314,36 +393,36 @@
       return;
     }
 
-    if (w.images.length > 1) {
-      // серия — показываем все части сразу
-      els.lb.classList.add('is-group');
-      els.lbMulti.style.display = 'flex';
-      w.images.forEach((s) => {
-        const img = new Image();
-        img.src = s; img.alt = w.title;
-        els.lbMulti.appendChild(img);
-      });
-      els.lbCap.textContent = (w.info ? `${w.title} — ${w.info}` : w.title) + ` · ${w.images.length} ${plural(w.images.length)}`;
-      return;
-    }
-
-    // одиночная работа
+    // одно изображение (часть серии или самостоятельная работа) — на весь экран
     els.lbImg.style.display = '';
-    els.lbImg.src = w.images[0];
-    els.lbImg.alt = w.title;
-    els.lbCap.textContent = w.info ? `${w.title} — ${w.info}` : w.title;
+    els.lbImg.src = sl.src;
+    els.lbImg.alt = sl.partTitle ? `${sl.title} — ${sl.partTitle}` : sl.title;
+    // Полный размер подгружаем следом и подменяем, когда он готов:
+    // работа открывается мгновенно, а качество дотягивается до максимума.
+    lbFullToken++;
+    if (sl.full) {
+      const token = lbFullToken;
+      const hi = new Image();
+      hi.onload = () => { if (token === lbFullToken) els.lbImg.src = hi.src; };
+      hi.src = sl.full;
+    }
+    let cap = sl.partTitle ? `${sl.title} · ${sl.partTitle}` : sl.title;
+    if (sl.info) cap += ` — ${sl.info}`;
+    if (sl.parts > 1) cap += ` · ${sl.part}/${sl.parts}`;
+    els.lbCap.textContent = cap;
   }
   function lbStep(d) {
-    const src = activeList();
-    if (src.length < 2) return;
-    current = (current + d + src.length) % src.length;
-    els.lbMulti.scrollTop = 0;
+    if (lbSlides.length < 2) return;
+    const prevWork = lbSlides[lbIndex].workIndex;
+    lbIndex = (lbIndex + d + lbSlides.length) % lbSlides.length;
     fillLightbox();
-    // держим coverflow «под» лайтбоксом синхронным
-    if (filter !== 'все') render(d);
+    // синхронизируем coverflow, когда слайд перешёл на другую работу
+    const nowWork = lbSlides[lbIndex].workIndex;
+    if (filter !== 'все' && nowWork !== prevWork) { current = nowWork; render(d); }
   }
   function closeLightbox() {
     els.lb.classList.remove('open');
+    els.lb.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
     setTimeout(() => els.lb.classList.remove('show'), 350);
   }

@@ -19,7 +19,7 @@
 .hero-inner { position: relative; z-index: 2; padding: 0 1.4rem;}
 .hero::before {
   content: ""; position: absolute; inset: 0; z-index: 1;
-  background: url("../images/art/Горячая эмаль/papa_1.jpg") center / cover no-repeat;
+  background: url("../assets/hero.webp") center / cover no-repeat;
   opacity: 0.34; filter: saturate(0.88) contrast(1.08);
 }
 

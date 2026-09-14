@@ -3,27 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Галерея — Иван Дьяков</title>
-  <meta name="description" content="Живописные эмали и декоративное искусство Ивана Дьякова.">
+  <!-- meta:start — заполняется сборкой из data/site.json, вручную не править -->
+  <title>Галерея работ — Иван Дьяков</title>
+  <meta name="description" content="Произведения живописной горячей эмали Ивана Дьякова: работы по меди с описанием техники, размеров и года создания.">
+  <link rel="canonical" href="https://gyros-dev.github.io/art-gallery_father/pages/gallery.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Иван Дьяков — художник-эмальер">
+  <meta property="og:title" content="Галерея работ — Иван Дьяков">
+  <meta property="og:description" content="Произведения живописной горячей эмали Ивана Дьякова: работы по меди с описанием техники, размеров и года создания.">
+  <meta property="og:url" content="https://gyros-dev.github.io/art-gallery_father/pages/gallery.html">
+  <meta property="og:image" content="https://gyros-dev.github.io/art-gallery_father/assets/og-preview.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="ru_RU">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- meta:end -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; connect-src 'self'; frame-src 'self' https:; base-uri 'self'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="icon" type="image/png" sizes="32x32" href="../assets/eye-32.png">
   <link rel="icon" type="image/png" sizes="256x256" href="../assets/eye-256.png">
   <link rel="apple-touch-icon" href="../assets/eye-180.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto+Slab:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/base.css">
-  <link rel="stylesheet" href="../css/gallery.css">
+  <link rel="stylesheet" href="../css/fonts.css?v=8220f409">
+  <link rel="stylesheet" href="../css/base.css?v=02b4cc12">
+  <link rel="stylesheet" href="../css/gallery.css?v=8ed8a873">
 </head>
 <body>
 
   <div id="navbar-placeholder"></div>
 
   <main class="gallery-page">
+    <h1 class="sr-only">Галерея работ Ивана Дьякова — живописная горячая эмаль</h1>
     <div class="gallery-filters" data-filters></div>
 
     <div class="coverflow-view" data-coverflow>
       <div class="stage">
-        <button class="nav-arrow prev" aria-label="Предыдущая"><img src="../assets/arrow-left-enamel.png" alt=""></button>
+        <button class="nav-arrow prev" aria-label="Предыдущая"><img src="../assets/arrow-left.webp" alt=""></button>
 
         <div class="cf-center" title="Открыть во весь экран">
           <div class="stack">
@@ -32,7 +46,7 @@
           </div>
         </div>
 
-        <button class="nav-arrow next" aria-label="Следующая"><img src="../assets/arrow-right-enamel.png" alt=""></button>
+        <button class="nav-arrow next" aria-label="Следующая"><img src="../assets/arrow-right.webp" alt=""></button>
       </div>
 
       <div class="art-info">
@@ -49,15 +63,15 @@
 
   <div class="lightbox" aria-hidden="true">
     <button class="lb-x" aria-label="Закрыть">✕</button>
-    <button class="lb-prev" aria-label="Предыдущая работа"><img src="../assets/arrow-left-enamel.png" alt=""></button>
-    <button class="lb-next" aria-label="Следующая работа"><img src="../assets/arrow-right-enamel.png" alt=""></button>
+    <button class="lb-prev" aria-label="Предыдущая работа"><img src="../assets/arrow-left.webp" alt=""></button>
+    <button class="lb-next" aria-label="Следующая работа"><img src="../assets/arrow-right.webp" alt=""></button>
     <img class="lb-image" alt="">
     <div class="lb-multi" style="display:none"></div>
     <div class="lb-text" style="display:none"></div>
     <p class="lb-caption"></p>
   </div>
 
-  <script src="../js/common.js"></script>
-  <script src="../js/gallery.js"></script>
+  <script src="../js/common.js?v=93952382"></script>
+  <script src="../js/gallery.js?v=57e13f4a"></script>
 </body>
 </html>

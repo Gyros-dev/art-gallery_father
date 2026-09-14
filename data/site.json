@@ -1,13 +1,17 @@
 {
-  "name": "Иван Дьяков",
+  "title": "Иван Дьяков — художник-эмальер",
+  "shortTitle": "Иван Дьяков",
   "tagline": "· горячая эмаль ·",
+  "description": "Страницы творчества художника-эмальера Ивана Дьякова: живописная горячая эмаль, декоративное искусство, выставки и биография.",
+  "url": "https://gyros-dev.github.io/art-gallery_father",
+  "name": "Иван Дьяков",
   "location": "Санкт-Петербург, Россия",
+  "photo": "images/other/artist1.jpg",
   "email": "",
   "phone": "",
-  "subscribeNote": "Новости о выставках и новых работах",
   "socials": [
     { "label": "ВКонтакте", "url": "" },
     { "label": "Telegram", "url": "" }
   ],
-  "featured": ["Трапеза", "Собрание сочинений"]
+  "featured": []
 }

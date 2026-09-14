@@ -1,0 +1,133 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://gyros-dev.github.io/art-gallery_father/#person",
+      "name": "Иван Дьяков",
+      "jobTitle": "Художник-эмальер",
+      "description": "Страницы творчества художника-эмальера Ивана Дьякова: живописная горячая эмаль, декоративное искусство, выставки и биография.",
+      "url": "https://gyros-dev.github.io/art-gallery_father/",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Санкт-Петербург",
+        "addressCountry": "RU"
+      },
+      "knowsAbout": [
+        "Горячая эмаль",
+        "Живописная эмаль",
+        "Монументальное искусство",
+        "Декоративно-прикладное искусство"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://gyros-dev.github.io/art-gallery_father/#website",
+      "name": "Иван Дьяков — художник-эмальер",
+      "url": "https://gyros-dev.github.io/art-gallery_father/",
+      "inLanguage": "ru-RU",
+      "author": {
+        "@id": "https://gyros-dev.github.io/art-gallery_father/#person"
+      }
+    },
+    {
+      "@type": "VisualArtwork",
+      "name": "Ростовые иконы святителя Николая Чудотворца и святого праведного Иоанна Кронштадтского. Фрагмент",
+      "artform": "Горячая эмаль",
+      "creator": {
+        "@id": "https://gyros-dev.github.io/art-gallery_father/#person"
+      },
+      "image": "https://gyros-dev.github.io/art-gallery_father/images/art/Горячая эмаль/Ростовые иконы святителя Николая Чудотворца и святого праведного Иоанна Кронштадтского. Фрагмент.webp"
+    },
+    {
+      "@type": "VisualArtwork",
+      "name": "Тест1",
+      "artform": "Горячая эмаль",
+      "creator": {
+        "@id": "https://gyros-dev.github.io/art-gallery_father/#person"
+      },
+      "image": "https://gyros-dev.github.io/art-gallery_father/images/art/Горячая эмаль/Тест1.webp"
+    },
+    {
+      "@type": "VisualArtwork",
+      "name": "Тест2",
+      "artform": "Горячая эмаль",
+      "creator": {
+        "@id": "https://gyros-dev.github.io/art-gallery_father/#person"
+      },
+      "image": "https://gyros-dev.github.io/art-gallery_father/images/art/Горячая эмаль/Тест2.webp"
+    },
+    {
+      "@type": "VisualArtwork",
+      "name": "Тест3",
+      "artform": "Горячая эмаль",
+      "creator": {
+        "@id": "https://gyros-dev.github.io/art-gallery_father/#person"
+      },
+      "image": "https://gyros-dev.github.io/art-gallery_father/images/art/Горячая эмаль/Тест3.webp"
+    },
+    {
+      "@type": "VisualArtwork",
+      "name": "Тест4",
+      "artform": "Горячая эмаль",
+      "creator": {
+        "@id": "https://gyros-dev.github.io/art-gallery_father/#person"
+      },
+      "image": "https://gyros-dev.github.io/art-gallery_father/images/art/Горячая эмаль/Тест4.webp"
+    },
+    {
+      "@type": "VisualArtwork",
+      "name": "Тест5",
+      "artform": "Горячая эмаль",
+      "creator": {
+        "@id": "https://gyros-dev.github.io/art-gallery_father/#person"
+      },
+      "image": "https://gyros-dev.github.io/art-gallery_father/images/art/Горячая эмаль/Тест5.webp"
+    },
+    {
+      "@type": "VisualArtwork",
+      "name": "Тест6",
+      "artform": "Горячая эмаль",
+      "creator": {
+        "@id": "https://gyros-dev.github.io/art-gallery_father/#person"
+      },
+      "image": "https://gyros-dev.github.io/art-gallery_father/images/art/Горячая эмаль/Тест6.webp"
+    },
+    {
+      "@type": "VisualArtwork",
+      "name": "Тест7",
+      "artform": "Горячая эмаль",
+      "creator": {
+        "@id": "https://gyros-dev.github.io/art-gallery_father/#person"
+      },
+      "image": "https://gyros-dev.github.io/art-gallery_father/images/art/Горячая эмаль/Тест7.webp"
+    },
+    {
+      "@type": "VisualArtwork",
+      "name": "papa_1",
+      "artform": "Горячая эмаль",
+      "creator": {
+        "@id": "https://gyros-dev.github.io/art-gallery_father/#person"
+      },
+      "image": "https://gyros-dev.github.io/art-gallery_father/images/art/Горячая эмаль/papa_1.webp"
+    },
+    {
+      "@type": "VisualArtwork",
+      "name": "papa_2",
+      "artform": "Горячая эмаль",
+      "creator": {
+        "@id": "https://gyros-dev.github.io/art-gallery_father/#person"
+      },
+      "image": "https://gyros-dev.github.io/art-gallery_father/images/art/Горячая эмаль/papa_2.webp"
+    },
+    {
+      "@type": "VisualArtwork",
+      "name": "Выставка эмалей \"ТРАПЕЗА\"",
+      "artform": "Горячая эмаль",
+      "creator": {
+        "@id": "https://gyros-dev.github.io/art-gallery_father/#person"
+      },
+      "image": "https://gyros-dev.github.io/art-gallery_father/images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/1.webp"
+    }
+  ]
+}

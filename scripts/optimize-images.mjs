@@ -1,0 +1,129 @@
+#!/usr/bin/env node
+/**
+ * Оптимизация картинок галереи.
+ *
+ *  images/art/**    — полноразмерные картины (лежат в репозитории):
+ *      jpg/png      → пережимаются в WebP ≤ 2000px, оригинал jpg/png удаляется
+ *      webp > 2000px→ уменьшаются до 2000px
+ *      webp ≤ 2000px→ остаются как есть (повторно НЕ пережимаются, чтобы не терять качество)
+ *
+ *  images/thumbs/** — эскизы 600px WebP для сетки и ленты миниатюр.
+ *      Пересобираются ПОЛНОСТЬЮ при каждом запуске (папка очищается): так эскиз
+ *      всегда соответствует картине, даже если файлы переименовали или заменили
+ *      картинку под тем же именем. В репозитории не хранятся — их делает сборка.
+ *
+ * Запуск: node scripts/optimize-images.mjs   (в CI выполняется автоматически перед сборкой)
+ */
+import { readdir, rename, unlink, mkdir, access, rm } from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import sharp from 'sharp';
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const ART = path.join(ROOT, 'images/art');
+const THUMBS = path.join(ROOT, 'images/thumbs');
+const ORIGINALS = path.join(ROOT, 'images/originals');
+const IMG = new Set(['.jpg', '.jpeg', '.png', '.webp']);
+const FULL_MAX = 2000, THUMB_MAX = 600, FULL_Q = 82, THUMB_Q = 74;
+
+const exists = (p) => access(p).then(() => true, () => false);
+
+async function walk(dir, cb) {
+  let entries;
+  try { entries = await readdir(dir, { withFileTypes: true }); }
+  catch { return; }
+  for (const e of entries) {
+    const p = path.join(dir, e.name);
+    if (e.isDirectory()) await walk(p, cb);
+    else if (e.isFile() && !e.name.startsWith('.')) await cb(p);
+  }
+}
+
+let full = 0, thumbs = 0, kept = 0, removed = 0, originals = 0;
+
+// Эскизы пересобираем с нуля: иначе после переименования файла или замены
+// картинки под тем же именем в сетке остался бы старый эскиз.
+await rm(THUMBS, { recursive: true, force: true });
+
+await walk(ART, async (src) => {
+  const ext = path.extname(src).toLowerCase();
+  if (!IMG.has(ext)) return;
+
+  const dir = path.dirname(src);
+  const base = path.basename(src, path.extname(src));
+  const rel = path.relative(ART, dir);
+  const webpOut = path.join(dir, base + '.webp');
+  const thumbDir = path.join(THUMBS, rel);
+  const thumbOut = path.join(thumbDir, base + '.webp');
+
+  const meta = await sharp(src).metadata();
+  const longside = Math.max(meta.width || 0, meta.height || 0);
+  const isRaster = ext !== '.webp';
+  const needFull = isRaster || longside > FULL_MAX;
+
+  // Слой «полный размер»: сохраняем исходник во всю величину до уменьшения.
+  // Он отдаётся только при открытии работы на весь экран.
+  if (longside > FULL_MAX) {
+    const origDir = path.join(ORIGINALS, rel);
+    const origOut = path.join(origDir, base + '.webp');
+    if (!(await exists(origOut))) {
+      await mkdir(origDir, { recursive: true });
+      await sharp(src).webp({ quality: 90 }).toFile(origOut);
+      originals++;
+    }
+  }
+
+  // Полноразмерный WebP ≤ 2000px
+  if (needFull) {
+    const tmp = webpOut + '.tmp';
+    await sharp(src)
+      .resize({ width: FULL_MAX, height: FULL_MAX, fit: 'inside', withoutEnlargement: true })
+      .webp({ quality: FULL_Q })
+      .toFile(tmp);
+    await rename(tmp, webpOut);
+    full++;
+    if (isRaster && path.resolve(src) !== path.resolve(webpOut)) { await unlink(src); removed++; }
+  } else {
+    kept++;
+  }
+
+  // Эскиз 600px — всегда из актуального файла работы
+  await mkdir(thumbDir, { recursive: true });
+  const source = (await exists(webpOut)) ? webpOut : src;
+  await sharp(source)
+    .resize({ width: THUMB_MAX, height: THUMB_MAX, fit: 'inside', withoutEnlargement: true })
+    .webp({ quality: THUMB_Q })
+    .toFile(thumbOut);
+  thumbs++;
+});
+
+/* ---------- Производные файлы оформления ----------
+   Их размер на экране известен заранее, поэтому держать их в исходной
+   величине незачем: логотип в шапке показывается кружком 30px, а грузился
+   файл 256x256 на 81 КБ — и так на каждой странице. Пересобираются каждый
+   запуск, поэтому не устаревают при замене исходника. */
+const DERIVED = [
+  // Логотип в шапке показывается квадратом 34px — исходник 256x256 на 120 КБ
+  // грузился на каждой странице.
+  { from: 'assets/eye-256.png',                to: 'assets/logo-72.webp',     width: 72,   height: 72, quality: 85 },
+  // Стрелки галереи: на экране не больше 104px, исходники по 2,2 МБ каждый.
+  { from: 'assets/arrow-left-enamel.png',      to: 'assets/arrow-left.webp',  width: 208,  quality: 88 },
+  { from: 'assets/arrow-right-enamel.png',     to: 'assets/arrow-right.webp', width: 208,  quality: 88 },
+  // Фон первого экрана: показывается во всю ширину под текстом, 1600px хватает.
+  { from: 'images/art/Горячая эмаль/papa_1.webp', to: 'assets/hero.webp',      width: 1600, quality: 74 },
+  // Фон-текстура повторяется плиткой 900px на каждой странице; исходник 2,4 МБ.
+  { from: 'images/other/black-wood-texture.png', to: 'assets/texture-wood.webp', width: 1200, quality: 70 },
+];
+
+let derived = 0;
+for (const d of DERIVED) {
+  const src = path.join(ROOT, d.from);
+  if (!(await exists(src))) { console.warn(`  ⚠ нет исходника для ${d.to}: ${d.from}`); continue; }
+  await sharp(src)
+    .resize({ width: d.width, height: d.height, withoutEnlargement: true })
+    .webp({ quality: d.quality, alphaQuality: 90 })
+    .toFile(path.join(ROOT, d.to));
+  derived++;
+}
+
+console.log(`Оптимизация: сохранено оригиналов ${originals}, пережато full ${full}, эскизов пересобрано ${thumbs}, оставлено webp без изменений ${kept}, удалено jpg/png ${removed}, файлов оформления ${derived}`);

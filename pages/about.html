@@ -2,27 +2,40 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- meta:start — заполняется сборкой из data/site.json, вручную не править -->
   <title>Художник — Иван Дьяков</title>
-  <meta name="description" content="Иван Дьяков — художник-эмальер и преподаватель СПбГУ.">
+  <meta name="description" content="Иван Дьяков — художник-эмальер, член Союза художников России, доцент СПбГУ, награждён Золотой медалью Российской академии художеств. Биография, регалии, выставки.">
+  <link rel="canonical" href="https://gyros-dev.github.io/art-gallery_father/pages/about.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Иван Дьяков — художник-эмальер">
+  <meta property="og:title" content="Художник — Иван Дьяков">
+  <meta property="og:description" content="Иван Дьяков — художник-эмальер, член Союза художников России, доцент СПбГУ, награждён Золотой медалью Российской академии художеств. Биография, регалии, выставки.">
+  <meta property="og:url" content="https://gyros-dev.github.io/art-gallery_father/pages/about.html">
+  <meta property="og:image" content="https://gyros-dev.github.io/art-gallery_father/assets/og-preview.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="ru_RU">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- meta:end -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; connect-src 'self'; frame-src 'self' https:; base-uri 'self'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="icon" type="image/png" sizes="32x32" href="../assets/eye-32.png">
   <link rel="icon" type="image/png" sizes="256x256" href="../assets/eye-256.png">
   <link rel="apple-touch-icon" href="../assets/eye-180.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto+Slab:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/base.css"><link rel="stylesheet" href="../css/about.css">
+  <link rel="stylesheet" href="../css/fonts.css?v=8220f409">
+  <link rel="stylesheet" href="../css/base.css?v=02b4cc12"><link rel="stylesheet" href="../css/about.css?v=0577340e">
 </head>
 <body>
   <div id="navbar-placeholder"></div>
   <main class="about-wrap">
     <section class="about-hero">
       <div class="txt">
-        <p class="role reveal">Иван Васильевич Дьяков · художник-эмальер</p>
+<!--        <p class="role reveal">Иван Васильевич Дьяков · художник-эмальер</p>-->
         <h1 class="reveal d1">Иван <span class="thin">Дьяков</span></h1>
         <p class="lead reveal d2">Декоративная живопись, горячая эмаль и искусство образа.</p>
         <p class="reveal d3">Член Союза художников России, доцент кафедры изобразительного искусства СПбГУ. С 2005 года преподаёт живопись и современную горячую эмаль.</p>
       </div>
-      <div class="about-portrait reveal d2"><div class="frame"><img src="../images/other/artist1.jpg" alt="Работа Ивана Дьякова" loading="lazy"></div></div>
+      <div class="about-portrait reveal d2"><div class="frame"><img data-artist-photo src="../images/other/artist1.jpg" alt="Работа Ивана Дьякова" loading="lazy"></div></div>
     </section>
     <a class="scroll-cue" href="#about-info" aria-label="Подробнее"><span class="scroll-cue-label">Подробнее</span><span class="scroll-cue-mouse"><span class="scroll-cue-wheel"></span></span><span class="scroll-cue-chevrons"><i></i><i></i></span></a>
     <section class="stats reveal" id="about-info">
@@ -64,17 +77,9 @@
 <!--      <p class="about-source"><a href="https://arts.spbu.ru/prepodavatel-spbgu-ivan-dyakov-nagrazhden-zolotoi-medalyu-rossiiskoi-akademii-khudozhestv" target="_blank" rel="noopener">Источник: публикация СПбГУ о награждении Золотой медалью РАХ ↗</a></p>-->
     </section>
   </main>
-  <footer class="site-footer"><p class="footer-name">Иван Дьяков</p><div class="footer-links"><a href="gallery.html">Галерея</a><a href="exhibitions.html">Выставки</a><a href="literature.html">Литература</a><a href="about.html">Художник</a></div><p class="footer-note">© <span data-year></span> · Санкт-Петербург</p></footer>
-  <script src="../js/common.js"></script>
-  <script>
-    (() => {
-      const image = document.querySelector('.about-portrait img');
-      const hero = document.querySelector('.about-hero');
-      if (!image || !hero) return;
-      const fitLayout = () => hero.classList.toggle('wide-portrait', image.naturalWidth > image.naturalHeight * 1.2);
-      image.addEventListener('load', fitLayout);
-      if (image.complete) fitLayout();
-    })();
-  </script>
+  <footer class="site-footer"><p class="footer-name">Иван Дьяков</p><div class="footer-links"><a href="gallery.html">Галерея</a><a href="exhibitions.html">Выставки</a><a href="literature.html">Литература</a><a href="about.html">Художник</a></div><p class="footer-note">© <span data-year></span> Иван Дьяков · Санкт-Петербург</p>
+    <p class="footer-rights">Изображения работ — объекты авторского права. Воспроизведение и использование без письменного разрешения автора не допускается.</p></footer>
+  <script src="../js/common.js?v=93952382"></script>
+  <script src="../js/about.js?v=1355e00e"></script>
 </body>
 </html>

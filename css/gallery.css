@@ -1,5 +1,12 @@
 /* Галерея — иммерсивный coverflow */
 
+/* Сколько по высоте занимает всё, кроме самой картины: шапка, фильтры,
+   подпись под работой и лента миниатюр. Высота картины считается от того,
+   что осталось, а не только от высоты экрана: на планшете в альбомной
+   ориентации панели браузера съедают высоту, и картина наезжала
+   на фильтры сверху и на подпись снизу. */
+:root { --cf-chrome: 22.5rem; }
+
 .gallery-page {
   height: 100svh;
   padding-top: calc(var(--nav-h) + 0.5rem);
@@ -70,14 +77,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  max-width: min(58vw, 680px);
-  max-height: 56vh;
+  max-width: min(58vw, 980px);
+  max-height: min(58vh, calc(100svh - var(--cf-chrome)));
 }
 .cf-center .stack.is-group { max-width: min(88vw, 1120px); }
 .cf-center img {
   display: block;
-  max-width: min(58vw, 680px);
-  max-height: 56vh;
+  max-width: min(58vw, 980px);
+  max-height: min(58vh, calc(100svh - var(--cf-chrome)));
   width: auto;
   object-fit: contain;
   box-shadow: 0 30px 70px -30px rgba(33,28,23,0.85);
@@ -91,10 +98,27 @@
   gap: clamp(0.5rem, 1.6vw, 1.2rem);
   opacity: 0;
   transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+  pointer-events: none; /* невидимый слой не должен перехватывать клики */
 }
-.cf-center .layer.show { opacity: 1; position: relative; }
-/* серия: несколько частей в ряд, размер задаётся из JS */
-.cf-center .layer.multi img { max-height: 52vh; }
+.cf-center .layer.show { opacity: 1; position: relative; pointer-events: auto; }
+
+/* ---- серия: части в ряд или «квадратом» ----
+   --cols/--rows приходят из JS, размер части считается так, чтобы вся серия
+   целиком укладывалась в сцену (и по ширине, и по высоте). */
+.cf-center .layer.multi { --cols: 1; --rows: 1; --cf-gap: clamp(0.4rem, 1.2vw, 1rem); }
+.cf-center .layer.multi img {
+  max-width: calc((min(88vw, 1120px) - (var(--cols) - 1) * var(--cf-gap)) / var(--cols));
+  max-height: calc((min(52vh, 100svh - var(--cf-chrome)) - (var(--rows) - 1) * var(--cf-gap)) / var(--rows));
+}
+/* «квадратом»: сетка из --cols столбцов */
+.cf-center .layer.multi.as-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), auto);
+  justify-content: center; align-content: center;
+  justify-items: center; align-items: center;
+  gap: var(--cf-gap);
+}
+.cf-center .stack.is-group.is-grid { max-width: min(72vw, 900px); }
 
 /* текстовая работа в центре */
 .cf-center .stack.is-text { max-width: min(60vw, 640px); }
@@ -107,7 +131,7 @@
   -webkit-backdrop-filter: blur(16px) saturate(1.2);
   backdrop-filter: blur(16px) saturate(1.2);
   padding: clamp(1.6rem, 4vw, 3rem);
-  max-height: 52vh; overflow: hidden;
+  max-height: min(52vh, calc(100svh - var(--cf-chrome))); overflow: hidden;
   text-align: left;
   box-shadow: 0 30px 70px -35px rgba(33,28,23,0.7);
 }
@@ -182,7 +206,15 @@
 .art-info .meta {
   font-size: 0.76rem; letter-spacing: 0.06em; color: var(--ink-soft);
 }
+/* на широком экране части подписи не рвутся, на узком — переносятся,
+   иначе длинное описание обрезалось краем экрана */
 .art-info .meta span { white-space: nowrap; }
+@media (max-width: 560px) {
+  .art-info .meta { line-height: 1.45; }
+  .art-info .meta span { white-space: normal; }
+  .art-info .meta .dot { display: none; }
+  .art-info .meta span + span { display: block; }
+}
 .art-info .meta .dot { color: var(--line); margin: 0 0.5rem; }
 .art-info.swap { animation: infoswap 0.5s var(--ease); }
 @keyframes infoswap { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
@@ -218,7 +250,7 @@
   position: absolute; right: 2px; bottom: 2px;
   min-width: 15px; height: 15px; padding: 0 3px;
   display: grid; place-items: center;
-  font-size: 0.56rem; line-height: 1;
+  font-size: 0.62rem; line-height: 1;
   color: var(--cream); background: color-mix(in srgb, var(--ink) 78%, transparent);
   border-radius: 8px;
 }
@@ -227,8 +259,12 @@
 .lightbox {
   position: fixed; inset: 0; z-index: 800;
   display: none;
+  /* вертикальный поток: картинка сверху, подпись под ней — они не перекрываются
+     ни на десктопе, ни на мобильном, как бы длинна ни была подпись */
+  flex-direction: column;
   align-items: center; justify-content: center;
-  padding: clamp(1rem, 4vw, 3rem);
+  gap: clamp(0.6rem, 1.5vh, 1.1rem);
+  padding: clamp(3.4rem, 7vh, 4.8rem) clamp(1rem, 4vw, 3rem) clamp(1.1rem, 2.6vh, 1.8rem);
   background: rgba(0,0,0,0.94);
   backdrop-filter: blur(8px);
   opacity: 0; transition: opacity 0.35s;
@@ -236,16 +272,20 @@
 .lightbox.show { display: flex; }
 .lightbox.open { opacity: 1; }
 .lightbox > img {
-  max-width: 100%; max-height: 86vh;
+  /* занимаем всю свободную высоту, сохраняя пропорции (мелкие исходники тоже
+     показываем крупно); тень через drop-shadow — обнимает саму картинку */
+  flex: 1 1 0; min-height: 0;
+  width: 100%; height: auto; max-width: 100%;
   object-fit: contain;
-  box-shadow: 0 40px 90px rgba(0,0,0,0.6);
+  filter: drop-shadow(0 24px 55px rgba(0,0,0,0.6));
   background: var(--cream); padding: 12px;
   cursor: zoom-out;
 }
 .lb-caption {
-  position: absolute; bottom: 1.4rem; left: 0; right: 0;
+  flex: 0 0 auto; max-width: 100%;
   text-align: center; color: var(--ink);
-  font-family: var(--serif), serif; font-size: 1.3rem;
+  font-family: var(--serif), serif;
+  font-size: clamp(0.9rem, 1.5vw, 1.3rem); line-height: 1.4;
 }
 .lb-x {
   position: absolute; top: 1.3rem; right: 1.3rem;
@@ -373,20 +413,36 @@
 /* ============ Адаптив ============ */
 /* Планшеты */
 @media (max-width: 1024px) {
-  .cf-center .stack, .cf-center img { max-width: min(64vw, 560px); max-height: 52vh; }
+  .cf-center .stack, .cf-center img { max-width: min(64vw, 560px); max-height: min(52vh, calc(100svh - var(--cf-chrome))); }
   .cf-center .stack.is-group { max-width: min(90vw, 900px); }
 }
 
 /* Мобильные */
 @media (max-width: 860px) {
-  .cf-center .stack, .cf-center img { max-width: 92vw; max-height: 54vh; }
+  .cf-center .stack, .cf-center img { max-width: 92vw; max-height: min(54vh, calc(100svh - var(--cf-chrome))); }
   .cf-center .stack.is-group { max-width: 96vw; }
+  .cf-center .stack.is-group.is-grid { max-width: 94vw; }
   .stage { padding: 0.5rem clamp(0.8rem, 4vw, 1.6rem); }
-  /* стрелки скрыты — навигация свайпом и лентой миниатюр */
+  /* в самой галерее стрелки скрыты — там листают свайпом и лентой миниатюр */
   .nav-arrow { display: none; }
-  .lightbox.has-nav .lb-prev, .lightbox.has-nav .lb-next { display: none; }
+  /* а в лайтбоксе стрелки нужны: без них серию не пролистать. Эмалевая стрелка
+     на телефоне закрыла бы половину работы, поэтому здесь компактные кнопки
+     с уголком — размер 44px, чтобы уверенно попадать пальцем. */
+  .lightbox.has-nav .lb-prev, .lightbox.has-nav .lb-next {
+    display: grid; place-items: center;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    opacity: 0.92; filter: none;
+  }
+  .lb-prev img, .lb-next img { display: none; }
+  .lightbox.has-nav .lb-prev::before, .lightbox.has-nav .lb-next::before {
+    content: "\2039"; color: var(--ink); font-size: 1.9rem; line-height: 1; margin-top: -0.16em;
+  }
+  .lightbox.has-nav .lb-next::before { content: "\203A"; }
   .lightbox.has-nav { padding-left: clamp(0.8rem, 4vw, 1.4rem); padding-right: clamp(0.8rem, 4vw, 1.4rem); }
-  .lightbox .lb-multi img { max-height: 74vh; }
+  /* лайтбокс: одна картина во всю доступную область, подпись под ней */
+  .lightbox { padding-top: 3.6rem; padding-bottom: 1rem; }
+  .lightbox > img { padding: 6px; }
 }
 
 @media (max-width: 640px) {
@@ -396,6 +452,7 @@
   .grid-card figcaption { flex-direction: column; gap: 0.15rem; padding: 0.5rem 0.1rem 0; }
   .grid-card figcaption h3 { font-size: 1rem; }
   .grid-card figcaption .cat { margin-left: 0; }
+  :root { --cf-chrome: 19.5rem; }
   .gallery-filters { gap: 0.4rem; padding: 0.4rem 0.5rem 0.2rem; }
   .chip { padding: 0.42rem 0.85rem; font-size: 0.6rem; letter-spacing: 0.1em; }
   .art-info { padding: 0.3rem 1rem 0.15rem; min-height: 64px; }
@@ -405,7 +462,7 @@
   .filmstrip { padding: 0.6rem 1rem 1rem; gap: 0.45rem; }
   .thumb { width: 52px; height: 52px; }
   .lb-x { top: 0.9rem; right: 0.9rem; width: 42px; height: 42px; }
-  .lb-caption { font-size: 1.05rem; bottom: 0.9rem; padding: 0 1rem; }
+  .lb-caption { font-size: 0.86rem; padding: 0 0.6rem; }
 }
 
 /* ============================================================

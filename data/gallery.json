@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-26T07:57:19.888Z",
+  "generated": "2026-09-14T07:03:02.037Z",
   "categories": [
     {
       "id": "горячая эмаль",
@@ -10,8 +10,12 @@
           "type": "art",
           "group": false,
           "images": [
-            "images/art/Горячая эмаль/Ростовые иконы святителя Николая Чудотворца и святого праведного Иоанна Кронштадтского. Фрагмент.jpg"
+            "images/art/Горячая эмаль/Ростовые иконы святителя Николая Чудотворца и святого праведного Иоанна Кронштадтского. Фрагмент.webp?v=e2464de6"
           ],
+          "full": [
+            null
+          ],
+          "thumb": "images/thumbs/Горячая эмаль/Ростовые иконы святителя Николая Чудотворца и святого праведного Иоанна Кронштадтского. Фрагмент.webp?v=773c8588",
           "info": ""
         },
         {
@@ -19,8 +23,12 @@
           "type": "art",
           "group": false,
           "images": [
-            "images/art/Горячая эмаль/Тест1.jpg"
+            "images/art/Горячая эмаль/Тест1.webp?v=1c1a0071"
           ],
+          "full": [
+            "images/originals/Горячая эмаль/Тест1.webp?v=5e8cb72c"
+          ],
+          "thumb": "images/thumbs/Горячая эмаль/Тест1.webp?v=a8ff1bcf",
           "info": ""
         },
         {
@@ -28,8 +36,12 @@
           "type": "art",
           "group": false,
           "images": [
-            "images/art/Горячая эмаль/Тест2.jpg"
+            "images/art/Горячая эмаль/Тест2.webp?v=4e63f799"
           ],
+          "full": [
+            "images/originals/Горячая эмаль/Тест2.webp?v=33b2ec2d"
+          ],
+          "thumb": "images/thumbs/Горячая эмаль/Тест2.webp?v=75b95f70",
           "info": ""
         },
         {
@@ -37,8 +49,12 @@
           "type": "art",
           "group": false,
           "images": [
-            "images/art/Горячая эмаль/Тест3.jpg"
+            "images/art/Горячая эмаль/Тест3.webp?v=01339987"
           ],
+          "full": [
+            "images/originals/Горячая эмаль/Тест3.webp?v=41a4515c"
+          ],
+          "thumb": "images/thumbs/Горячая эмаль/Тест3.webp?v=97b3c052",
           "info": ""
         },
         {
@@ -46,8 +62,12 @@
           "type": "art",
           "group": false,
           "images": [
-            "images/art/Горячая эмаль/Тест4.jpg"
+            "images/art/Горячая эмаль/Тест4.webp?v=87033f2e"
           ],
+          "full": [
+            "images/originals/Горячая эмаль/Тест4.webp?v=775b763d"
+          ],
+          "thumb": "images/thumbs/Горячая эмаль/Тест4.webp?v=e852bd93",
           "info": ""
         },
         {
@@ -55,8 +75,12 @@
           "type": "art",
           "group": false,
           "images": [
-            "images/art/Горячая эмаль/Тест5.jpg"
+            "images/art/Горячая эмаль/Тест5.webp?v=da05bc1a"
           ],
+          "full": [
+            "images/originals/Горячая эмаль/Тест5.webp?v=180dba42"
+          ],
+          "thumb": "images/thumbs/Горячая эмаль/Тест5.webp?v=d77f4684",
           "info": ""
         },
         {
@@ -64,8 +88,12 @@
           "type": "art",
           "group": false,
           "images": [
-            "images/art/Горячая эмаль/Тест6.jpg"
+            "images/art/Горячая эмаль/Тест6.webp?v=92d093e5"
           ],
+          "full": [
+            null
+          ],
+          "thumb": "images/thumbs/Горячая эмаль/Тест6.webp?v=62d38186",
           "info": ""
         },
         {
@@ -73,8 +101,12 @@
           "type": "art",
           "group": false,
           "images": [
-            "images/art/Горячая эмаль/Тест7.jpg"
+            "images/art/Горячая эмаль/Тест7.webp?v=cb846dad"
           ],
+          "full": [
+            null
+          ],
+          "thumb": "images/thumbs/Горячая эмаль/Тест7.webp?v=49760c99",
           "info": ""
         },
         {
@@ -82,8 +114,12 @@
           "type": "art",
           "group": false,
           "images": [
-            "images/art/Горячая эмаль/papa_1.jpg"
+            "images/art/Горячая эмаль/papa_1.webp?v=b28b0346"
           ],
+          "full": [
+            null
+          ],
+          "thumb": "images/thumbs/Горячая эмаль/papa_1.webp?v=63fbcc86",
           "info": ""
         },
         {
@@ -91,25 +127,80 @@
           "type": "art",
           "group": false,
           "images": [
-            "images/art/Горячая эмаль/papa_2.jpg"
+            "images/art/Горячая эмаль/papa_2.webp?v=591dcafb"
           ],
+          "full": [
+            null
+          ],
+          "thumb": "images/thumbs/Горячая эмаль/papa_2.webp?v=ded0e7db",
           "info": ""
         },
         {
           "title": "Выставка эмалей \"ТРАПЕЗА\"",
           "type": "art",
           "group": true,
+          "layout": "grid",
           "images": [
-            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/1.jpg",
-            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/2.jpg",
-            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/3.jpg",
-            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/4.jpg",
-            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/5.jpg",
-            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/6.jpg",
-            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/7.jpg",
-            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/8.jpg",
-            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/9.jpg"
+            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/1.webp?v=f1b10839",
+            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/2.webp?v=1232feb0",
+            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/3.webp?v=1eb6fd62",
+            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/4.webp?v=04c9bc0a",
+            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/5.webp?v=28639705",
+            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/6.webp?v=6324acfd",
+            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/7.webp?v=c60e6744",
+            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/8.webp?v=2d16a9a1",
+            "images/art/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/9.webp?v=eeecb1e9"
           ],
+          "full": [
+            "images/originals/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/1.webp?v=5e54e48d",
+            "images/originals/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/2.webp?v=4035bc75",
+            "images/originals/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/3.webp?v=02a88bb7",
+            "images/originals/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/4.webp?v=bcc5d65a",
+            "images/originals/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/5.webp?v=c86ef10c",
+            "images/originals/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/6.webp?v=6bbc6d88",
+            "images/originals/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/7.webp?v=41338420",
+            "images/originals/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/8.webp?v=70892752",
+            "images/originals/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/9.webp?v=4117f1c0"
+          ],
+          "parts": [
+            {
+              "title": "",
+              "info": ""
+            },
+            {
+              "title": "",
+              "info": ""
+            },
+            {
+              "title": "",
+              "info": ""
+            },
+            {
+              "title": "",
+              "info": ""
+            },
+            {
+              "title": "",
+              "info": ""
+            },
+            {
+              "title": "",
+              "info": ""
+            },
+            {
+              "title": "",
+              "info": ""
+            },
+            {
+              "title": "",
+              "info": ""
+            },
+            {
+              "title": "",
+              "info": ""
+            }
+          ],
+          "thumb": "images/thumbs/Горячая эмаль/Выставка эмалей \"ТРАПЕЗА\"/1.webp?v=de35e674",
           "info": ""
         }
       ]
